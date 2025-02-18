@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Status {
+  pending
+  posted
+  canceled
+}
+
+enum FileType {
+  image
+  video
+  file
+}
+
+model Post {
+  id         String    @id @default(uuid())
+  title      String    @db.VarChar(255)
+  brandId    String
+  platformId String
+  dueDate    DateTime? @db.Timestamp(6)
+  status     Status    @default(pending)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  brand       Brand            @relation(fields: [brandId], references: [id])
+  platform    Platform         @relation(fields: [platformId], references: [id])
+  attachments PostAttachment[]
+  tags        PostTag[]
+
+  @@map("posts")
+}
+
+model Brand {
+  id        String   @id @default(uuid())
+  name      String   @unique @db.VarChar(255)
+  createdAt DateTime @default(now())
+
+  posts Post[]
+
+  @@map("brands")
+}
+
+model Platform {
+  id        String   @id @default(uuid())
+  name      String   @unique @db.VarChar(255)
+  createdAt DateTime @default(now())
+
+  posts Post[]
+
+  @@map("platforms")
+}
+
+model PostAttachment {
+  id        String   @id @default(uuid())
+  postId    String
+  fileUrl   String   @db.Text
+  type      FileType
+  createdAt DateTime @default(now())
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@map("post_attachments")
+}
+
+model PostTag {
+  id      String @id @default(uuid())
+  postId  String
+  tagName String @db.VarChar(100)
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@map("post_tags")
+}
