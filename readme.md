@@ -50,7 +50,23 @@ npm  install
 
 ```
 
-### 3. Run Database Migrations
+### 3. Edit env to connect your database
+
+```bash
+
+cp .env.example .env
+
+```
+
+Edit env (Change to your database configuration)
+
+```bash
+
+`DATABASE_URL="postgresql://postgres:@localhost:5432/db_social_media_todo?schema=public"`
+
+```
+
+### 4. Run Database Migrations
 
 ```bash
 
@@ -58,7 +74,7 @@ npx prisma  migrate  dev
 
 ```
 
-### 4. Run Seeder (for data dummy)
+### 6. Run Seeder (for data dummy)
 
 ```bash
 
@@ -66,7 +82,7 @@ npm run seed
 
 ```
 
-### 5. Start the Server
+### 7. Start the Server
 
 ```bash
 
