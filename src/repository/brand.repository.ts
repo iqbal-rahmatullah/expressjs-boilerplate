@@ -11,6 +11,9 @@ export class BrandRepository {
       where: {
         id,
       },
+      include: {
+        posts: true,
+      },
     })
   }
 

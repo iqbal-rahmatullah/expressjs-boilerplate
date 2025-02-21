@@ -5,6 +5,7 @@ import {
 } from "../dto/platform.dto"
 import { ErrorResponse } from "../error/error.response"
 import { PlatformRepository } from "../repository/platform.repository"
+import { PostRepository } from "../repository/post.repository"
 import { PlatformValidation } from "../validation/module/platform.validation"
 import { Validation } from "../validation/validation"
 
@@ -72,6 +73,14 @@ export class PlatformService {
 
     if (!existPlatform) {
       throw new ErrorResponse("Platform not found", 404)
+    }
+
+    if (existPlatform.posts) {
+      await Promise.all(
+        existPlatform.posts.map(async (post) => {
+          await PostRepository.delete(post.id)
+        })
+      )
     }
 
     const deletedPlatform = await PlatformRepository.delete(id)

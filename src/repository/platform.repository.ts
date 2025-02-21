@@ -27,6 +27,9 @@ export class PlatformRepository {
       where: {
         id,
       },
+      include: {
+        posts: true,
+      },
     })
   }
 

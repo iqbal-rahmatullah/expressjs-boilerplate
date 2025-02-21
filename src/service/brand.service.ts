@@ -5,6 +5,7 @@ import {
 } from "../dto/brand.dto"
 import { ErrorResponse } from "../error/error.response"
 import { BrandRepository } from "../repository/brand.repository"
+import { PostRepository } from "../repository/post.repository"
 import { BrandValidation } from "../validation/module/brand.validation"
 import { Validation } from "../validation/validation"
 
@@ -71,6 +72,14 @@ export class BrandService {
 
     if (!brand) {
       throw new ErrorResponse("Brand not found", 404)
+    }
+
+    if (brand.posts) {
+      await Promise.all(
+        brand.posts.map(async (post) => {
+          await PostRepository.delete(post.id)
+        })
+      )
     }
 
     const deletedBrand = await BrandRepository.delete(id)
