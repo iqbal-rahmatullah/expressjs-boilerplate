@@ -30,7 +30,7 @@ export class BrandService {
       throw new ErrorResponse("Brand already exist", 409)
     }
 
-    const createdBrand = await BrandRepository.create(data)
+    const createdBrand = await BrandRepository.create(validateBrand)
     return toBrandResponse(createdBrand)
   }
 

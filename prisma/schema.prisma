@@ -78,7 +78,7 @@ model PostAttachment {
 model PostTag {
   id      String @id @default(uuid())
   postId  String
-  tagName String @db.VarChar(100)
+  tagName String @unique @db.VarChar(100)
 
   post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 

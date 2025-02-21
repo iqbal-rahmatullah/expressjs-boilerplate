@@ -76,6 +76,14 @@ export class PlatformController {
     next: NextFunction
   ) {
     try {
+      const deletedPlatform = await PlatformService.deletePlarform(
+        req.params.id
+      )
+
+      res.status(200).json({
+        status: "OK",
+        data: deletedPlatform,
+      })
     } catch (error) {
       next(error)
     }
