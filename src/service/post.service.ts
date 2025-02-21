@@ -42,8 +42,12 @@ export class PostService {
     let postTags: PostTag[] = []
 
     if (data.tagName) {
+      const tagNames = Array.isArray(data.tagName)
+        ? data.tagName
+        : (data.tagName as string).split(",")
+
       await Promise.all(
-        data.tagName.map(async (tagName: string) => {
+        tagNames.map(async (tagName: string) => {
           const tag = await PostTagRepository.upsertTag(tagName, createdPost.id)
           postTags.push(tag)
         })
@@ -201,8 +205,14 @@ export class PostService {
     let postTags: PostTag[] = []
 
     if (data.tagName) {
+      const tagNames = Array.isArray(data.tagName)
+        ? data.tagName
+        : (data.tagName as string).split(",")
+
+      await PostTagRepository.deleteTagByPostId(id)
+
       await Promise.all(
-        data.tagName.map(async (tagName: string) => {
+        tagNames.map(async (tagName: string) => {
           const tag = await PostTagRepository.upsertTag(tagName, id)
           postTags.push(tag)
         })

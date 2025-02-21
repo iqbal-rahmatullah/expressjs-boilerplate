@@ -15,4 +15,11 @@ export class PostTagRepository {
       },
     })
   }
+  static async deleteTagByPostId(postId: string) {
+    return await prisma.postTag.deleteMany({
+      where: {
+        postId,
+      },
+    })
+  }
 }

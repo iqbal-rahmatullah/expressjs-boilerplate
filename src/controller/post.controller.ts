@@ -27,8 +27,7 @@ export class PostController {
       const newPost = await PostService.createPost(data, files)
 
       res.status(201).json({
-        success: true,
-        message: "Post created successfully",
+        status: "OK",
         data: newPost,
       })
     } catch (error) {
