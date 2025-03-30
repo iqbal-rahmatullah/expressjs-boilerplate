@@ -94,9 +94,3 @@ Server runs at `http://localhost:3000`
 Documentation runs at `http://localhost:3000/api/v1/docs`
 
 ---
-
-## 🚀 Demo
-
-[https://social.iqbalrahmatullah.engineer/api/v1/docs/](https://social.iqbalrahmatullah.engineer/api/v1/docs/)
-
----
